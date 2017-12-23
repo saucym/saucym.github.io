@@ -1,0 +1,646 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一行代码的约束解决方案众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="书生的博客">
+<meta property="og:url" content="http://yoursite.com/2017/01/19/100行代码的约束解决方案/index.html">
+<meta property="og:site_name" content="书生的博客">
+<meta property="og:description" content="一行代码的约束解决方案众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swi">
+<meta property="og:updated_time" content="2017-12-09T12:23:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="书生的博客">
+<meta name="twitter:description" content="一行代码的约束解决方案众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swi">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/19/100行代码的约束解决方案/"/>
+
+
+
+
+
+  <title>  | 书生的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">书生的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">待完善</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/19/100行代码的约束解决方案/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Saucym Qin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="书生的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="书生的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-19T10:59:18+08:00">
+                2017-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一行代码的约束解决方案"><a href="#一行代码的约束解决方案" class="headerlink" title="一行代码的约束解决方案"></a>一行代码的约束解决方案</h1><h3 id="众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件-比如Masonry-，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。"><a href="#众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件-比如Masonry-，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。" class="headerlink" title="众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。"></a>众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。</h3><p>首先要一行代码解决那就需要用到可变参数函数并且按约定的顺序填参数实现约束，其次考虑好用我们做iOS开发的对UIEdgeInsets的top, left, bottom, right这个顺序已经非常熟悉了，然后我们再加上宽高，继续加上是否支持safeArea，再加上是否是相等(或者大于等于，或者小于等于)，最后再加上两个比较少用的centerX centerY，这样我们整个函数10个参数就写好了，类似这样- [UIView wykit_constraint:top, left, bottom, right, width, height, supportSafeArea, relation, centerX, centerY, nil];<br>当然大多数时候我们只使用前4-6个参数就可以了(记得nil结尾)<br>下面上实现代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div></pre></td><td class="code"><pre><div class="line">//.h</div><div class="line">@interface UIView (WYKit)</div><div class="line"></div><div class="line">/**</div><div class="line">使用可变参数做约束 参数必须严格按这个照顺序给(top left bottom right width height supportSafeArea relation centerX centerY)且必须以nil结尾 没有的用不支持的类型占位(比如NSNull或者@[])。</div><div class="line">supportSafeArea NSNumber (是否支持safeArea，default NO)</div><div class="line">relation NSNumber 指定是约束相等还是 default NSLayoutRelationEqual TODO:这个参数暂时未实现</div><div class="line"></div><div class="line">@param top left bottom right width height 这几个参数支持的类型 UIView NSLayoutAnchor NSNumber</div><div class="line">@return 返回约束聚合对象</div><div class="line">*/</div><div class="line">- (WYKitConstraints *)wykit_constraint:(id)top, ... NS_REQUIRES_NIL_TERMINATION;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">//.m</div><div class="line">@implementation UIView (WYKit)</div><div class="line"></div><div class="line">- (WYKitConstraints *)wykit_constraint:(id)top, ... NS_REQUIRES_NIL_TERMINATION &#123;</div><div class="line">id left = nil;</div><div class="line">id bottom = nil;</div><div class="line">id right = nil;</div><div class="line">id width = nil;</div><div class="line">id height = nil;</div><div class="line">id centerX = nil;</div><div class="line">id centerY = nil;</div><div class="line">BOOL supportSafeArea = NO;</div><div class="line">NSLayoutRelation relation = NSLayoutRelationEqual;</div><div class="line">//1.取出参数</div><div class="line">if (top) &#123;</div><div class="line">va_list args;// 定义一个指向个数可变的参数列表指针；</div><div class="line">va_start(args, top);// 初始化变量刚定义的va_list变量，这个宏的第二个参数是第一个可变参数的前一个参数，是一个固定的参数</div><div class="line">do&#123;</div><div class="line">left = va_arg(args, id);</div><div class="line">if (!left) break;</div><div class="line">bottom = va_arg(args, id);</div><div class="line">if (!bottom) break;</div><div class="line">right = va_arg(args, id);</div><div class="line">if (!right) break;</div><div class="line">width = va_arg(args, id);</div><div class="line">if (!width) break;</div><div class="line">height = va_arg(args, id);</div><div class="line">if (!height) break;</div><div class="line">id flagObj = va_arg(args, id);</div><div class="line">if (!flagObj) break;</div><div class="line">if ([flagObj isKindOfClass:NSNumber.class]) &#123;</div><div class="line">supportSafeArea = [flagObj boolValue];</div><div class="line">&#125;</div><div class="line">id relationObj = va_arg(args, id);</div><div class="line">if (!relationObj) break;</div><div class="line">if ([relationObj isKindOfClass:NSNumber.class]) &#123;</div><div class="line">relation = [relationObj integerValue];</div><div class="line">NSAssert((relation == 0 || relation == 1 || relation == -1), @&quot;数据不合法 必须是 NSLayoutRelationEqual NSLayoutRelationGreaterThanOrEqual 或 NSLayoutRelationLessThanOrEqual&quot;);</div><div class="line">&#125;</div><div class="line">centerX = va_arg(args, id);</div><div class="line">if (!centerX) break;</div><div class="line">centerY = va_arg(args, id);</div><div class="line">if (!centerY) break;</div><div class="line">&#125; while(0);</div><div class="line">va_end(args);// 清空参数列表，并置参数指针args无效</div><div class="line">&#125;</div><div class="line"></div><div class="line">//2.根据参数设置约束</div><div class="line">self.translatesAutoresizingMaskIntoConstraints = NO;</div><div class="line">UILayoutGuide *(^wykit_getGuide)(UIView *view) = ^(UIView *view) &#123;</div><div class="line">if (@available(iOS 11.0, *)) &#123;</div><div class="line">if (supportSafeArea) block_return view.safeAreaLayoutGuide;</div><div class="line">&#125;</div><div class="line"></div><div class="line">block_return (UILayoutGuide *)view;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">UILayoutGuide *guide = wykit_getGuide(self.superview);</div><div class="line">NSLayoutConstraint *layout = nil;</div><div class="line">WYKitConstraints *constraints = [WYKitConstraints new];</div><div class="line">constraints.supportSafeArea = supportSafeArea;</div><div class="line">constraints.relation = relation;</div><div class="line"></div><div class="line">#define wykit_layout_item(x, r) \</div><div class="line">if ([x isKindOfClass:UIView.class] || [x isKindOfClass:NSNumber.class] || [x isKindOfClass:NSLayoutAnchor.class]) &#123;\</div><div class="line">NSLayoutAnchor *xAnchor = [self x##Anchor];\</div><div class="line">NSLayoutAnchor *anchor = ([xAnchor isKindOfClass:NSLayoutDimension.class]) ? nil : [guide x##Anchor];\</div><div class="line">CGFloat constant = 0;\</div><div class="line">if ([x isKindOfClass:UIView.class]) &#123;\</div><div class="line">anchor = [wykit_getGuide(x) x##Anchor];\</div><div class="line">&#125; else if ([x isKindOfClass:NSNumber.class]) &#123;\</div><div class="line">constant = [x floatValue];\</div><div class="line">&#125; else if ([x isKindOfClass:NSLayoutAnchor.class]) &#123;\</div><div class="line">anchor = x;\</div><div class="line">&#125;\</div><div class="line">\</div><div class="line">if ([xAnchor isKindOfClass:NSLayoutDimension.class]) &#123;\</div><div class="line">if ([anchor isKindOfClass:NSLayoutDimension.class]) &#123;\</div><div class="line">layout = [(NSLayoutDimension *)xAnchor r##Anchor:(NSLayoutDimension *)anchor constant:constant];\</div><div class="line">&#125; else &#123;\</div><div class="line">layout = [(NSLayoutDimension *)xAnchor r##Constant:constant];\</div><div class="line">&#125;\</div><div class="line">&#125; else &#123;\</div><div class="line">layout = [xAnchor r##Anchor:anchor constant:constant];\</div><div class="line">&#125;\</div><div class="line">layout.active = YES;\</div><div class="line">[constraints wykit_set##x:layout];\</div><div class="line">&#125;</div><div class="line"></div><div class="line">#define wykit_layout_all(r) \</div><div class="line">wykit_layout_item(top, r);\</div><div class="line">wykit_layout_item(left, r);\</div><div class="line">wykit_layout_item(bottom, r);\</div><div class="line">wykit_layout_item(right, r);\</div><div class="line">wykit_layout_item(width, r);\</div><div class="line">wykit_layout_item(height, r);\</div><div class="line">wykit_layout_item(centerX, r);\</div><div class="line">wykit_layout_item(centerY, r);\</div><div class="line"></div><div class="line">if (relation == NSLayoutRelationGreaterThanOrEqual) &#123;</div><div class="line">wykit_layout_all(constraintGreaterThanOrEqualTo);</div><div class="line">&#125; else if (relation == NSLayoutRelationLessThanOrEqual) &#123;</div><div class="line">wykit_layout_all(constraintLessThanOrEqualTo);</div><div class="line">&#125; else &#123;</div><div class="line">wykit_layout_all(constraintEqualTo);</div><div class="line">&#125;</div><div class="line"></div><div class="line">return constraints;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>这里定义一个对象来保证扩展性，当然你也可以不要这个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">//.h</div><div class="line">@interface WYKitConstraints : NSObject</div><div class="line"></div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *top;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *left;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *bottom;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *right;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *width;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *height;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *centerX;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *centerY;</div><div class="line"></div><div class="line">@property (nonatomic, readonly) BOOL supportSafeArea; /**&lt; 是否支持safeArea */</div><div class="line">@property (nonatomic, readonly) NSLayoutRelation relation;/**&lt; default NSLayoutRelationEqual */</div><div class="line"></div><div class="line">- (void)config:(void (^)(WYKitConstraints *make))block; /**&lt; 设置好约束后可以定制一些偏移值 */</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">//.m</div><div class="line">@interface WYKitConstraints ()</div><div class="line">@property (nonatomic, assign) BOOL supportSafeArea;</div><div class="line">@property (nonatomic, assign) NSLayoutRelation relation;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation WYKitConstraints : NSObject</div><div class="line"></div><div class="line">- (void)wykit_settop:(NSLayoutConstraint *)top &#123;</div><div class="line">    _top = top;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setleft:(NSLayoutConstraint *)left &#123;</div><div class="line">    _left = left;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setbottom:(NSLayoutConstraint *)bottom &#123;</div><div class="line">    _bottom = bottom;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setright:(NSLayoutConstraint *)right &#123;</div><div class="line">    _right = right;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setwidth:(NSLayoutConstraint *)width &#123;</div><div class="line">    _width = width;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setheight:(NSLayoutConstraint *)height &#123;</div><div class="line">    _height = height;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setcenterX:(NSLayoutConstraint *)centerX &#123;</div><div class="line">    _centerX = centerX;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setcenterY:(NSLayoutConstraint *)centerY &#123;</div><div class="line">    _centerY = centerY;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)config:(void (^)(WYKitConstraints *make))block &#123;</div><div class="line">    if (block) block(self);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>下面给几个实际项目中的使用例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//一个view布局参考父视图 离顶部5 左边5 宽180 高50并且后续可能会调整 可以用下面的一行代码简单实现</div><div class="line">_segHeightLayout = [sView wykit_constraint:@5, @5, @0, @[], @180, @50, nil].height;</div><div class="line"></div><div class="line">//还有很多实际使用列子，通过下面这些约束就实现了一个iOS11的大标题导航栏并且加搜索的约束了 效果下面会给出gif</div><div class="line">[self wykit_constraint:@0, @0, @[], @0, @[], @[], nil];</div><div class="line">_segHeightLayout = [sView wykit_constraint:@[], @5, @0, @[], @180, @(kCPASegHeight), nil].height;</div><div class="line">_searchHeightLayout = [searchBar wykit_constraint:@[], @10, sView.topAnchor, @(-10), @[], @(kCPASearchHeight), nil].height;</div><div class="line">_largeTitleHeightLayout = [largeView wykit_constraint:@[], @15, searchBar.topAnchor, @(-15), @[], @(kCPALargeHeight), nil].height;</div><div class="line">[tLabel wykit_constraint:@[], @0, @(-5), @0, nil];</div><div class="line">_titleHeightLayout = [navBar wykit_constraint:@0, @0, rView.topAnchor, @0, @[], @(kCPATitleHeight), @(YES), nil].height;</div></pre></td></tr></table></figure></p>
+<p> 以上就是全部实现，欢迎交流讨论</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/03/iOS转屏的坑和一些使用技巧/" rel="prev" title="iOS实现横竖屏遇到的一些坑和一些使用技巧">
+                iOS实现横竖屏遇到的一些坑和一些使用技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/header.png"
+               alt="Saucym Qin" />
+          <p class="site-author-name" itemprop="name">Saucym Qin</p>
+           
+              <p class="site-description motion-element" itemprop="description">我本微末凡尘，可也心向天空…</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一行代码的约束解决方案"><span class="nav-number">1.</span> <span class="nav-text">一行代码的约束解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件-比如Masonry-，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。"><span class="nav-number">1.0.1.</span> <span class="nav-text">众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Saucym Qin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

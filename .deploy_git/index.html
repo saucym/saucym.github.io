@@ -369,6 +369,157 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/DragDrop/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Saucym Qin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="书生的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="书生的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/03/DragDrop/" itemprop="url">
+                  为你的APP加上DragDrop
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T17:12:33+08:00">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>苹果最近发布了iOS11beta版，里面有很多激动人心的API，我们这里先体验一下DragDrop。Drag做为定义方提供一个可以拖拽的东西，可以是图片或文件等任意的东西。Drop是作为接收方，你可以指定你可以接收一些什么东西。</p>
+<p>我们这里以一个UICollectionView为例子，这里苹果已经给我们实现了这两个协议。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@property (nonatomic, weak, nullable) id &lt;UICollectionViewDragDelegate&gt; dragDelegate API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos, watchos);</div><div class="line">@property (nonatomic, weak, nullable) id &lt;UICollectionViewDropDelegate&gt; dropDelegate API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos, watchos);</div></pre></td></tr></table></figure></p>
+<p>我们只要做很少的事情就可以搞定了一个简单的DragDrop了<br>一、首先在你的CollectionViewController里面指定协议<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if (@available(iOS 11.0, *)) &#123;</div><div class="line">    self.collectionView.dropDelegate = self;</div><div class="line">    self.collectionView.dropDelegate = self;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>二、实现Drop协议<br>1.首先制定接收拖拽的方式，我们这里指定为copy，这样默认实现就不会移除drag位置的cell<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (UICollectionViewDropProposal *)collectionView:(UICollectionView *)collectionView dropSessionDidUpdate:(id&lt;UIDropSession&gt;)session withDestinationIndexPath:(nullable NSIndexPath *)destinationIndexPath &#123;</div><div class="line">    return [[UICollectionViewDropProposal alloc] initWithDropOperation:UIDropOperationCopy];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>2.指定是否可以接收拖拽的东西，这里可以通过session的方法 hasItemsConformingToTypeIdentifiers: 判断是否是你可以处理的拖拽类型，比如这里只处理拖过来的图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (BOOL)collectionView:(UICollectionView *)collectionView canHandleDropSession:(id&lt;UIDropSession&gt;)session &#123;</div><div class="line">    return [session hasItemsConformingToTypeIdentifiers:@[(NSString *)kUTTypeImage]];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.处理拖拽过来的数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">- (void)collectionView:(UICollectionView *)collectionView performDropWithCoordinator:(id&lt;UICollectionViewDropCoordinator&gt;)coordinator &#123;</div><div class="line">    if (coordinator.session.localDragSession) &#123; //来自自己当前APP的拖拽,可以直接拿到drag的时候自定义的数据</div><div class="line">        CGPoint point = [coordinator.session.localDragSession locationInView:collectionView];</div><div class="line">        NSIndexPath *indexPath = [collectionView indexPathForItemAtPoint:point]; //拿到了松手时候的目标cell  可以拿来做动画</div><div class="line">        </div><div class="line">        [coordinator.items enumerateObjectsUsingBlock:^(id&lt;UICollectionViewDropItem&gt;  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;</div><div class="line">            UIDragItem *dragItem = obj.dragItem;</div><div class="line">            if (dragItem.localObject) &#123;</div><div class="line">                id object = dragItem.localObject; //这里就是drag的时候传的自定义数据</div><div class="line">            &#125;</div><div class="line">        &#125;];</div><div class="line">    &#125; else &#123; // 来自别的APP的拖拽，这里需要从别的APP下载数据</div><div class="line">        [coordinator.items enumerateObjectsUsingBlock:^(id&lt;UICollectionViewDropItem&gt;  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;</div><div class="line">            UIDragItem *dragItem = obj.dragItem;</div><div class="line">            [dragItem.itemProvider loadFileRepresentationForTypeIdentifier:(NSString*)kUTTypeJPEG completionHandler:^(NSURL * _Nullable url, NSError * _Nullable error) &#123;</div><div class="line">                //下载到拖拽过来的数据了</div><div class="line">            &#125;];</div><div class="line">        &#125;];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>三、实现Drag协议<br>1.定制拖拽的对象，需要实现一个NSItemProviderWriting协议，告诉目标APP我们拖的是一个什么类型的数据，然后把数据处理一下给目标APP，还可以给一个处理进度给目标APP<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@interface WYDragFileItem : NSObject &lt;NSItemProviderWriting&gt;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation WYDragFileItem</div><div class="line"></div><div class="line">+ (NSArray&lt;NSString *&gt;*)writableTypeIdentifiersForItemProvider &#123;</div><div class="line">    return @[(NSString*)kUTTypeJPEG, (NSString *)kUTTypeImage];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (nullable NSProgress *)loadDataWithTypeIdentifier:(NSString *)typeIdentifier forItemProviderCompletionHandler:(void (^)(NSData * _Nullable data, NSError * _Nullable error))completionHandler &#123; //这里面可以是一个下载方法或者压缩方法或者格式转换方法，允许给一个进度让目标位置显示，可异步</div><div class="line">    completionHandler(UIImagePNGRepresentation([UIImage imageNamed:@&quot;image&quot;]), nil);</div><div class="line">    return nil;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>2.开始拖拽的时候包装拖拽数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (NSArray&lt;UIDragItem *&gt; *)collectionView:(UICollectionView *)collectionView itemsForBeginningDragSession:(id&lt;UIDragSession&gt;)session atIndexPath:(NSIndexPath *)indexPath &#123;</div><div class="line">    NSItemProvider *provider = [[NSItemProvider alloc] initWithObject:dragObject]; //dragObject 是一个实现NSItemProviderWriting协议的数据，一会下面介绍</div><div class="line">    UIDragItem *item = [[UIDragItem alloc] initWithItemProvider:provider];</div><div class="line">    item.localObject = anyObject; //anyObject 是可以传递的任意自定义数据</div><div class="line">    return @[item];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样一个简单的拖拽流程就完成了，细节或动画等这里就不写了，具体可以相互探讨一下。<br>demo这里就不放了，大家可以前往RDM下载 <a href="http://rdm.oa.com/ci/product/fe597790-0f22-4a68-b4ee-2c589ddc5541/job/41267" target="_blank" rel="external">微云-体验分支(iOS11)</a> 自行体验</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/ITMS-90171/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -518,7 +669,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/a/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/iOS转屏的坑和一些使用技巧/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Saucym Qin">
@@ -543,8 +694,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/03/a/" itemprop="url">
-                  填坑路之:ITMS-90171
+                <a class="post-title-link" href="/2017/03/03/iOS转屏的坑和一些使用技巧/" itemprop="url">
+                  iOS实现横竖屏遇到的一些坑和一些使用技巧
                 </a>
               
             
@@ -620,13 +771,146 @@
       
         
           
-            <p>最近Swift和Objective-c混编使用脚本打包提交App Store遇到报错 ITMS-90171:”Invalid Bundle Structure - The binary file “xxx.app/libswiftRemoteMirror.dylib” is not permitted” </p>
-<h1 id="不啰嗦-这里把解决问题放第一位，所以这里先贴打包脚本源码"><a href="#不啰嗦-这里把解决问题放第一位，所以这里先贴打包脚本源码" class="headerlink" title="不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码"></a>不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">TARGET=<span class="string">"xxx"</span> <span class="comment">#这里一般填你的工程名字</span></div><div class="line">PROJECT_NAME=<span class="variable">$TARGET</span></div><div class="line">PROJECT_FILE=<span class="variable">$PROJECT_NAME</span>.xcodeproj</div><div class="line">CONFIGURATION=Release</div><div class="line">BUILD_FOLDER=build/<span class="variable">$CONFIGURATION</span>-iphoneos</div><div class="line">RESULT_FOLDER=result</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="string">"clear folder"</span></div><div class="line">rm -rf <span class="variable">$BUILD_FOLDER</span></div><div class="line">mkdir -p <span class="variable">$BUILD_FOLDER</span></div><div class="line">rm -rf <span class="variable">$RESULT_FOLDER</span></div><div class="line">mkdir -p <span class="variable">$RESULT_FOLDER</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> clean...</div><div class="line">xcodebuild  -project  <span class="variable">$PROJECT_FILE</span>  -scheme  <span class="variable">$PROJECT_NAME</span>  -configuration  <span class="variable">$CONFIGURATION</span> clean</div><div class="line"></div><div class="line"><span class="built_in">echo</span> begin xcodebuild...</div><div class="line">xcodebuild -project <span class="variable">$PROJECT_FILE</span> -scheme <span class="variable">$PROJECT_NAME</span> -configuration <span class="variable">$CONFIGURATION</span>  -archivePath <span class="variable">$BUILD_FOLDER</span>/<span class="variable">$PROJECT_NAME</span>.xcarchive  archive</div><div class="line"></div><div class="line"><span class="built_in">echo</span> begin xcrun...</div><div class="line">xcrun xcodebuild -exportArchive -exportOptionsPlist build_config/archive_option.plist -archivePath  <span class="variable">$BUILD_FOLDER</span>/<span class="variable">$PROJECT_NAME</span>.xcarchive -exportPath <span class="variable">$RESULT_FOLDER</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="variable">$RESULT_FOLDER</span>/<span class="variable">$PROJECT_NAME</span>.ipa</div></pre></td></tr></table></figure>
-<p>这里附上archive_option.plist文件内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</div><div class="line">&lt;!DOCTYPE plist PUBLIC <span class="string">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="string">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span>&gt;</div><div class="line">&lt;plist version=<span class="string">"1.0"</span>&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;method&lt;/key&gt;</div><div class="line">    &lt;string&gt;app-store&lt;/string&gt;</div><div class="line">    &lt;key&gt;teamID&lt;/key&gt;</div><div class="line">    &lt;string&gt;xxx&lt;/string&gt;</div><div class="line">    &lt;key&gt;uploadSymbols&lt;/key&gt;</div><div class="line">    &lt;<span class="literal">false</span>/&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;/plist&gt;</div></pre></td></tr></table></figure></p>
-<p><a href="http://www.jianshu.com/p/bccbb37f21f9" target="_blank" rel="external">xcrun命令</a>参考</p>
-<h1 id="有闲情逸致的可以看看下面的解决过程"><a href="#有闲情逸致的可以看看下面的解决过程" class="headerlink" title="有闲情逸致的可以看看下面的解决过程"></a>有闲情逸致的可以看看下面的解决过程</h1><p>首先google之查到一些信息，libswiftRemoteMirror.dylib这货是Xcode挖的坑，Swift跟oc混编用Xcode8的.app打包就会自动给你放个libswiftRemoteMirror.dylib这货在包里面，然后你提交的时候它有告诉你不允许包里面有这货，这时候我就想骂人了，但是想了下英语除了会fuck就不会其它高雅一点的了，于是放弃骂人，还是继续埋头想办法吧…于是习惯性的在网上找到<a href="http://www.jianshu.com/p/03e4a3597af5" target="_blank" rel="external">一篇文章</a>,这文章里面主要说了三个方法，先列出来<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.通过Xcode的Archive方式打包。Archive打的包，就没有包含这个libswiftRemoteMirror.dylib文件。</div><div class="line">2.手动删除.app中的libswiftRemoteMirror.dylib文件，然后进行.app打包。</div><div class="line">3.在Xcode7中进行.app打包。在Xcode7和Xcode8中分别进行.app打包，发现Xcode7打包后没有libswiftRemoteMirror.dylib文件</div></pre></td></tr></table></figure></p>
-<p>由于本人比较懒，能用脚本解决的事绝对不用鼠标点第二下，所以所有方法都是用脚本实现的<br>首先，方法3直接排除，尼玛苹果Xcode向下兼容做得最扯蛋的，Xcode8开发的项目还拿Xcode7去运行简直嫌自己被坑得不够惨吧！<br>然后看方法2感觉很简单的样子，于是在压缩成ipa的脚本前面加了这两行代码（删文件+重签）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rm -rf <span class="variable">$BUILD_DIR</span>/<span class="variable">$PROJECT</span>.app/libswiftRemoteMirror.dylib</div><div class="line">codesign <span class="_">-f</span> <span class="_">-s</span> <span class="string">'xxx xxx xx, Ltd (xxxx)'</span> <span class="variable">$BUILD_DIR</span>/<span class="variable">$PROJECT</span>.app</div></pre></td></tr></table></figure></p>
-<p>搞定提交，以为完事可以回家打豆豆了，但是苹果君还想让我陪它玩玩，于是又跳出来个错误 ITMS-90166:’Missing Code Signing Entitlements.No entitlements found in boundle ‘com.xxx.xxx’for executable ‘xxx/xxx.app/xxx’.’，好吧，你是大爷，你说错咱改还不行吗。于是继续找google君找答案，找了<a href="http://stackoverflow.com/questions/29684966/missing-code-signing-entitlements-for-resource-bundle-xcode-6-3" target="_blank" rel="external">几个类似的</a>但是都跟我遇到的情况都不一样，而且项目急需上架，于是我准备先用前面提到的方法1：Archive打包，但是打包完成后提交还是遇到报这个错,到这里我有点懵逼了，这时候一个叫柠檬的同事说遇到过相同的情况，咨询之，对方说他们改了脚本用Archive打包就搞定了，一语惊醒梦中人(谢谢柠檬同学)，对啊哥怎么没想到可以改用脚本Archive打包呢这样又可以规避一些Xcode的bug，于是把脚本中的.app打包方式改成Archive打包后就提交成功了。详细脚本请看上面</p>
+            <p>项目中频繁的使用一些转屏，开发和维护过程中遇到很多坑，这里把转屏的基本流程和使用技巧分享一下。</p>
+<p>一、首先介绍一下转屏的基本流程。<br>    1.设备硬件加速计检测到方向变化的时候会发出UIDeviceOrientationDidChangeNotification通知。<br>    2.app收到通知会询问AppDelegate的window支持的方向情况与window的rootViewController或rootViewController.presentedViewController(如果存在)所支持的方向做交集，然后完成旋转。<br>二、旋转控制函数有下面几个</p>
+<pre><code>- (BOOL)shouldAutorotate;// 将要自动旋转 返回 yes 为支持旋转，no 为不支持旋转  (这里有个坑，后面会讲)
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations;// 支持的界面方向
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation;// 首选方向，刚present进去时的方向
+</code></pre><p>三、下面是两个实践例子<br>例子(1).先来一个简单的，一个只支持Portrait的界面A present 一个支持三个方向(UIInterfaceOrientationMaskAllButUpsideDown)的界面B，并且首选方向是左<br>这样很简单，在A中写两个函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (BOOL)shouldAutorotate &#123;</div><div class="line">    return NO;</div><div class="line">&#125;</div><div class="line">- (UIInterfaceOrientationMask)supportedInterfaceOrientations &#123;</div><div class="line">    return UIInterfaceOrientationMaskPortrait;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>在B中写三个函数就搞定了
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (BOOL)shouldAutorotate &#123;</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line">- (UIInterfaceOrientationMask)supportedInterfaceOrientations &#123;</div><div class="line">    return UIInterfaceOrientationMaskAllButUpsideDown;</div><div class="line">&#125;</div><div class="line">- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation &#123;</div><div class="line">    return UIInterfaceOrientationLandscapeLeft;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>然后就可以直接看效果了
+</code></pre><p><a href="presentB">图片</a><br>    这时候你会发现在界面B旋转屏幕到非Portrait后dismiss会crash，因为dissmiss的时候window会询问A的方向，和当前window方向做交集，交集为空就crash了，解决办法很简单，在dismiss之前转回A页面支持的方向就可以了，代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (instancetype)init &#123;</div><div class="line">    self = [super init];</div><div class="line">    if (self) &#123;</div><div class="line">        self.originDeviceOrientation = [UIDevice currentDevice].orientation;</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line">- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion &#123;</div><div class="line">    [[UIDevice currentDevice] setValue:@(self.originDeviceOrientation) forKey:@&quot;orientation&quot;];</div><div class="line">    [super dismissViewControllerAnimated:flag completion:completion];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>例子(2).再来一个常用的，一个只支持Portrait的界面A push 一个支持三个方向(UIInterfaceOrientationMaskAllButUpsideDown)的界面B<br>    要实现这个能力除了在A、B控制器里面分别实现上面写的函数外还需要转发转屏控制，因为window只询问到UINavigationController或UITabBarController，我们这里需要对UINavigationController的消息做转发，代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">@interface UINavigationController(Autorotate)</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation UINavigationController(Autorotate)</div><div class="line"></div><div class="line">- (BOOL)shouldAutorotate &#123;</div><div class="line">    return self.viewControllers.lastObject.shouldAutorotate;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (UIInterfaceOrientationMask)supportedInterfaceOrientations &#123;</div><div class="line">    return self.viewControllers.lastObject.supportedInterfaceOrientations;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation &#123;</div><div class="line">    return self.viewControllers.lastObject.preferredInterfaceOrientationForPresentation;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<pre><code>但是这样会出现一个bug，如果B处于横屏状态pop，然后再次push到B在pop，动画就会异常。类似下面这样的异常动画
+查了半天没找到原因，然后发现手Q没这个问题，于是查看手Q代码发现手Q里面没有实现shouldAutorotate这个函数，其实supportedInterfaceOrientations这一个函数就完全可以搞定屏幕方向了，不知道Apple的工程师为什么设计两个接口来控制屏幕方向。这里把shouldAutorotate函数干掉就没问题了。
+</code></pre><p>我们项目里面就有一个(2)这样的使用场景，前前后后遇踩了好多坑，总感觉这种使用方式有问题。最近思考了下，并把Apple本家的app都下载下来使用了下，没有看到(2)这种使用方式，而且系统API询问转屏只询问到UINavigationController说明Apple的API设计里面可能都没有考虑(2)这种使用场景。最后总结了下转屏的几个注意事项，欢迎大家批评指正。<br>    1.全局都不用写shouldAutorotate，只写supportedInterfaceOrientations就够了。<br>    2.不要像例子(2)里面一样去分发UINavigationController或UITabBarController的转屏控制函数，如果做了就要做好踩坑的准备，实在产品需求没办法可以考虑用present并定制一个跟push一样的transition动画。<br>    3.支持不同方向的界面要像例子(1)这样用present，因为官方文档里面都是说的这样使用。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/19/100行代码的约束解决方案/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Saucym Qin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="书生的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="书生的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/19/100行代码的约束解决方案/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-19T10:59:18+08:00">
+                2017-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="一行代码的约束解决方案"><a href="#一行代码的约束解决方案" class="headerlink" title="一行代码的约束解决方案"></a>一行代码的约束解决方案</h1><h3 id="众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件-比如Masonry-，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。"><a href="#众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件-比如Masonry-，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。" class="headerlink" title="众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。"></a>众所周知Apple提供的约束接口非常不好用，我们开发的时候基本都是用的第三方开源约束组件(比如Masonry)，虽然iOS9开始Apple已经意识到了这一点做了相应的更新但是他们的接口还是使用比较不方便。当然swift最新的约束写法是要好很多基本赶上Masonry了，然而我们现在大多项目还是不能完全切使用swift，所以objc的约束我们还是要继续用，由于我比较懒，就算swift最新的约束写法也不能满足我，于是我就开始思考有什么办法可以让我们写约束的时候可以非常简单最好一行代码能解决呢。因为我们大多数App已经从iOS9开始支持了，于是我就基于iOS9的UIViewLayoutConstraintCreation封装了一套简单的约束解决方案，所有代码加起来不到200行，非常简单高效，实现日常编码中大多数约束都能通过一行代码实现。走过路过千万不要错过，200行代码你看了不吃亏看了不上当。</h3><p>首先要一行代码解决那就需要用到可变参数函数并且按约定的顺序填参数实现约束，其次考虑好用我们做iOS开发的对UIEdgeInsets的top, left, bottom, right这个顺序已经非常熟悉了，然后我们再加上宽高，继续加上是否支持safeArea，再加上是否是相等(或者大于等于，或者小于等于)，最后再加上两个比较少用的centerX centerY，这样我们整个函数10个参数就写好了，类似这样- [UIView wykit_constraint:top, left, bottom, right, width, height, supportSafeArea, relation, centerX, centerY, nil];<br>当然大多数时候我们只使用前4-6个参数就可以了(记得nil结尾)<br>下面上实现代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div></pre></td><td class="code"><pre><div class="line">//.h</div><div class="line">@interface UIView (WYKit)</div><div class="line"></div><div class="line">/**</div><div class="line">使用可变参数做约束 参数必须严格按这个照顺序给(top left bottom right width height supportSafeArea relation centerX centerY)且必须以nil结尾 没有的用不支持的类型占位(比如NSNull或者@[])。</div><div class="line">supportSafeArea NSNumber (是否支持safeArea，default NO)</div><div class="line">relation NSNumber 指定是约束相等还是 default NSLayoutRelationEqual TODO:这个参数暂时未实现</div><div class="line"></div><div class="line">@param top left bottom right width height 这几个参数支持的类型 UIView NSLayoutAnchor NSNumber</div><div class="line">@return 返回约束聚合对象</div><div class="line">*/</div><div class="line">- (WYKitConstraints *)wykit_constraint:(id)top, ... NS_REQUIRES_NIL_TERMINATION;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">//.m</div><div class="line">@implementation UIView (WYKit)</div><div class="line"></div><div class="line">- (WYKitConstraints *)wykit_constraint:(id)top, ... NS_REQUIRES_NIL_TERMINATION &#123;</div><div class="line">id left = nil;</div><div class="line">id bottom = nil;</div><div class="line">id right = nil;</div><div class="line">id width = nil;</div><div class="line">id height = nil;</div><div class="line">id centerX = nil;</div><div class="line">id centerY = nil;</div><div class="line">BOOL supportSafeArea = NO;</div><div class="line">NSLayoutRelation relation = NSLayoutRelationEqual;</div><div class="line">//1.取出参数</div><div class="line">if (top) &#123;</div><div class="line">va_list args;// 定义一个指向个数可变的参数列表指针；</div><div class="line">va_start(args, top);// 初始化变量刚定义的va_list变量，这个宏的第二个参数是第一个可变参数的前一个参数，是一个固定的参数</div><div class="line">do&#123;</div><div class="line">left = va_arg(args, id);</div><div class="line">if (!left) break;</div><div class="line">bottom = va_arg(args, id);</div><div class="line">if (!bottom) break;</div><div class="line">right = va_arg(args, id);</div><div class="line">if (!right) break;</div><div class="line">width = va_arg(args, id);</div><div class="line">if (!width) break;</div><div class="line">height = va_arg(args, id);</div><div class="line">if (!height) break;</div><div class="line">id flagObj = va_arg(args, id);</div><div class="line">if (!flagObj) break;</div><div class="line">if ([flagObj isKindOfClass:NSNumber.class]) &#123;</div><div class="line">supportSafeArea = [flagObj boolValue];</div><div class="line">&#125;</div><div class="line">id relationObj = va_arg(args, id);</div><div class="line">if (!relationObj) break;</div><div class="line">if ([relationObj isKindOfClass:NSNumber.class]) &#123;</div><div class="line">relation = [relationObj integerValue];</div><div class="line">NSAssert((relation == 0 || relation == 1 || relation == -1), @&quot;数据不合法 必须是 NSLayoutRelationEqual NSLayoutRelationGreaterThanOrEqual 或 NSLayoutRelationLessThanOrEqual&quot;);</div><div class="line">&#125;</div><div class="line">centerX = va_arg(args, id);</div><div class="line">if (!centerX) break;</div><div class="line">centerY = va_arg(args, id);</div><div class="line">if (!centerY) break;</div><div class="line">&#125; while(0);</div><div class="line">va_end(args);// 清空参数列表，并置参数指针args无效</div><div class="line">&#125;</div><div class="line"></div><div class="line">//2.根据参数设置约束</div><div class="line">self.translatesAutoresizingMaskIntoConstraints = NO;</div><div class="line">UILayoutGuide *(^wykit_getGuide)(UIView *view) = ^(UIView *view) &#123;</div><div class="line">if (@available(iOS 11.0, *)) &#123;</div><div class="line">if (supportSafeArea) block_return view.safeAreaLayoutGuide;</div><div class="line">&#125;</div><div class="line"></div><div class="line">block_return (UILayoutGuide *)view;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">UILayoutGuide *guide = wykit_getGuide(self.superview);</div><div class="line">NSLayoutConstraint *layout = nil;</div><div class="line">WYKitConstraints *constraints = [WYKitConstraints new];</div><div class="line">constraints.supportSafeArea = supportSafeArea;</div><div class="line">constraints.relation = relation;</div><div class="line"></div><div class="line">#define wykit_layout_item(x, r) \</div><div class="line">if ([x isKindOfClass:UIView.class] || [x isKindOfClass:NSNumber.class] || [x isKindOfClass:NSLayoutAnchor.class]) &#123;\</div><div class="line">NSLayoutAnchor *xAnchor = [self x##Anchor];\</div><div class="line">NSLayoutAnchor *anchor = ([xAnchor isKindOfClass:NSLayoutDimension.class]) ? nil : [guide x##Anchor];\</div><div class="line">CGFloat constant = 0;\</div><div class="line">if ([x isKindOfClass:UIView.class]) &#123;\</div><div class="line">anchor = [wykit_getGuide(x) x##Anchor];\</div><div class="line">&#125; else if ([x isKindOfClass:NSNumber.class]) &#123;\</div><div class="line">constant = [x floatValue];\</div><div class="line">&#125; else if ([x isKindOfClass:NSLayoutAnchor.class]) &#123;\</div><div class="line">anchor = x;\</div><div class="line">&#125;\</div><div class="line">\</div><div class="line">if ([xAnchor isKindOfClass:NSLayoutDimension.class]) &#123;\</div><div class="line">if ([anchor isKindOfClass:NSLayoutDimension.class]) &#123;\</div><div class="line">layout = [(NSLayoutDimension *)xAnchor r##Anchor:(NSLayoutDimension *)anchor constant:constant];\</div><div class="line">&#125; else &#123;\</div><div class="line">layout = [(NSLayoutDimension *)xAnchor r##Constant:constant];\</div><div class="line">&#125;\</div><div class="line">&#125; else &#123;\</div><div class="line">layout = [xAnchor r##Anchor:anchor constant:constant];\</div><div class="line">&#125;\</div><div class="line">layout.active = YES;\</div><div class="line">[constraints wykit_set##x:layout];\</div><div class="line">&#125;</div><div class="line"></div><div class="line">#define wykit_layout_all(r) \</div><div class="line">wykit_layout_item(top, r);\</div><div class="line">wykit_layout_item(left, r);\</div><div class="line">wykit_layout_item(bottom, r);\</div><div class="line">wykit_layout_item(right, r);\</div><div class="line">wykit_layout_item(width, r);\</div><div class="line">wykit_layout_item(height, r);\</div><div class="line">wykit_layout_item(centerX, r);\</div><div class="line">wykit_layout_item(centerY, r);\</div><div class="line"></div><div class="line">if (relation == NSLayoutRelationGreaterThanOrEqual) &#123;</div><div class="line">wykit_layout_all(constraintGreaterThanOrEqualTo);</div><div class="line">&#125; else if (relation == NSLayoutRelationLessThanOrEqual) &#123;</div><div class="line">wykit_layout_all(constraintLessThanOrEqualTo);</div><div class="line">&#125; else &#123;</div><div class="line">wykit_layout_all(constraintEqualTo);</div><div class="line">&#125;</div><div class="line"></div><div class="line">return constraints;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>这里定义一个对象来保证扩展性，当然你也可以不要这个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">//.h</div><div class="line">@interface WYKitConstraints : NSObject</div><div class="line"></div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *top;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *left;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *bottom;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *right;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *width;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *height;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *centerX;</div><div class="line">@property (nonatomic, readonly) NSLayoutConstraint *centerY;</div><div class="line"></div><div class="line">@property (nonatomic, readonly) BOOL supportSafeArea; /**&lt; 是否支持safeArea */</div><div class="line">@property (nonatomic, readonly) NSLayoutRelation relation;/**&lt; default NSLayoutRelationEqual */</div><div class="line"></div><div class="line">- (void)config:(void (^)(WYKitConstraints *make))block; /**&lt; 设置好约束后可以定制一些偏移值 */</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">//.m</div><div class="line">@interface WYKitConstraints ()</div><div class="line">@property (nonatomic, assign) BOOL supportSafeArea;</div><div class="line">@property (nonatomic, assign) NSLayoutRelation relation;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation WYKitConstraints : NSObject</div><div class="line"></div><div class="line">- (void)wykit_settop:(NSLayoutConstraint *)top &#123;</div><div class="line">    _top = top;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setleft:(NSLayoutConstraint *)left &#123;</div><div class="line">    _left = left;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setbottom:(NSLayoutConstraint *)bottom &#123;</div><div class="line">    _bottom = bottom;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setright:(NSLayoutConstraint *)right &#123;</div><div class="line">    _right = right;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setwidth:(NSLayoutConstraint *)width &#123;</div><div class="line">    _width = width;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setheight:(NSLayoutConstraint *)height &#123;</div><div class="line">    _height = height;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setcenterX:(NSLayoutConstraint *)centerX &#123;</div><div class="line">    _centerX = centerX;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)wykit_setcenterY:(NSLayoutConstraint *)centerY &#123;</div><div class="line">    _centerY = centerY;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)config:(void (^)(WYKitConstraints *make))block &#123;</div><div class="line">    if (block) block(self);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
+<p>下面给几个实际项目中的使用例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//一个view布局参考父视图 离顶部5 左边5 宽180 高50并且后续可能会调整 可以用下面的一行代码简单实现</div><div class="line">_segHeightLayout = [sView wykit_constraint:@5, @5, @0, @[], @180, @50, nil].height;</div><div class="line"></div><div class="line">//还有很多实际使用列子，通过下面这些约束就实现了一个iOS11的大标题导航栏并且加搜索的约束了 效果下面会给出gif</div><div class="line">[self wykit_constraint:@0, @0, @[], @0, @[], @[], nil];</div><div class="line">_segHeightLayout = [sView wykit_constraint:@[], @5, @0, @[], @180, @(kCPASegHeight), nil].height;</div><div class="line">_searchHeightLayout = [searchBar wykit_constraint:@[], @10, sView.topAnchor, @(-10), @[], @(kCPASearchHeight), nil].height;</div><div class="line">_largeTitleHeightLayout = [largeView wykit_constraint:@[], @15, searchBar.topAnchor, @(-15), @[], @(kCPALargeHeight), nil].height;</div><div class="line">[tLabel wykit_constraint:@[], @0, @(-5), @0, nil];</div><div class="line">_titleHeightLayout = [navBar wykit_constraint:@0, @0, rView.topAnchor, @0, @[], @(kCPATitleHeight), @(YES), nil].height;</div></pre></td></tr></table></figure></p>
+<p> 以上就是全部实现，欢迎交流讨论</p>
 
           
         
@@ -703,7 +987,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
