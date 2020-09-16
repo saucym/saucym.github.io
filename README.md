@@ -1,2 +1,1 @@
-# gitbook
-记录一些笔记
+This is a book powered by [GitBook](https://github.com/saucym/gitbook).
