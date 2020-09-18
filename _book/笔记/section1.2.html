@@ -206,6 +206,24 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="2-wrap&#x63A7;&#x4EF6;">2. Wrap&#x63A7;&#x4EF6;</h1>
+<pre><code class="lang-Dart">Wrap({
+    Key key,
+    <span class="hljs-keyword">this</span>.direction = Axis.horizontal,
+    <span class="hljs-keyword">this</span>.alignment = WrapAlignment.start,
+    <span class="hljs-keyword">this</span>.spacing = <span class="hljs-number">0.0</span>,
+    <span class="hljs-keyword">this</span>.runAlignment = WrapAlignment.start,
+    <span class="hljs-keyword">this</span>.runSpacing = <span class="hljs-number">0.0</span>,
+    <span class="hljs-keyword">this</span>.crossAxisAlignment = WrapCrossAlignment.start,
+    <span class="hljs-keyword">this</span>.textDirection,
+    <span class="hljs-keyword">this</span>.verticalDirection = VerticalDirection.down,
+    <span class="hljs-keyword">this</span>.clipBehavior = Clip.hardEdge,
+    <span class="hljs-built_in">List</span>&lt;Widget&gt; children = <span class="hljs-keyword">const</span> &lt;Widget&gt;[],
+  })
+</code></pre>
+<h1 id="3-&#x7591;&#x95EE;">3. &#x7591;&#x95EE;</h1>
+<ol>
+<li>Flutter&#x91CC;&#x9762;&#x5982;&#x4F55;push&#x4E00;&#x4E2A;&#x7C7B;&#x4F3C;alert&#x7684;&#x9875;&#x9762;&#xFF0C;&#x8BA9;&#x900F;&#x660E;&#x7684;&#x5730;&#x65B9;&#x7684;&#x70B9;&#x51FB;&#x54CD;&#x5E94;&#x4F20;&#x7ED9;&#x4E0A;&#x4E00;&#x4E2A;&#x9875;&#x9762;</li>
+</ol>
 
                                 
                                 </section>
@@ -249,7 +267,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"2. voe","level":"1.2.2","depth":2,"next":{"title":"学习","level":"1.3","depth":1,"path":"学习/README.md","ref":"学习/README.md","articles":[]},"previous":{"title":"1. GitBook安装遇到的问题","level":"1.2.1","depth":2,"path":"笔记/section1.1.md","ref":"笔记/section1.1.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"笔记/section1.2.md","mtime":"2020-09-09T07:57:33.618Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-16T12:06:53.049Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"2. voe","level":"1.2.2","depth":2,"next":{"title":"学习","level":"1.3","depth":1,"path":"学习/README.md","ref":"学习/README.md","articles":[]},"previous":{"title":"1. GitBook安装遇到的问题","level":"1.2.1","depth":2,"path":"笔记/section1.1.md","ref":"笔记/section1.1.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"笔记/section1.2.md","mtime":"2020-09-18T04:55:19.687Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-18T04:55:38.950Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -257,10 +275,6 @@
         
     <script src="../gitbook/gitbook.js"></script>
     <script src="../gitbook/theme.js"></script>
-    
-        
-        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
-        
     
         
         <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
