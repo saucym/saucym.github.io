@@ -60,7 +60,9 @@ Container(color: color, padding: padding, child: child)
 
 ### 3、`padding`和`margin`
 这两个比较容易用混，我们通过下面一个例子来理解
+
 ![padding_margin](assets/padding_margin.jpg)
+
 源码如下
 ```Dart
 Center(

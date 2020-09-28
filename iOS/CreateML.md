@@ -18,13 +18,13 @@ import CreateML
 
 let videoExts = Set(arrayLiteral: "MP4", "MOV", "MKV", "3GP", "MPV", "AVI", "RMVB", "WMF", "MPG", "RM", "ASF", "MPEG", "WMV", "FLV", "F4A", "WEBM", "VOB", "M4V")
 
-let path = "/Users/saucymqin/Desktop/a.txt"
+let path = "/Users/qin/Desktop/a.txt"
 let fileText = try! String(contentsOf: URL(fileURLWithPath: path))
 let text = (fileText as NSString).replacingOccurrences(of: "\\", with: "/")
 
 let array = text.components(separatedBy: "\n")
-let movies = array.filter { $0.contains("讯电影协会-影音博物馆/★影视/电影/") }
-let tvs = array.filter { $0.contains("讯电影协会-影音博物馆/★影视/剧集/电视剧") }
+let movies = array.filter { $0.contains("电影协会-影音博物馆/★影视/电影/") }
+let tvs = array.filter { $0.contains("电影协会-影音博物馆/★影视/剧集/电视剧") }
 let movieNames = movies.filter { videoExts.contains(($0 as NSString).pathExtension.uppercased()) }.map{ ($0 as NSString).lastPathComponent }
 
 let tvNames = tvs.filter { videoExts.contains(($0 as NSString).pathExtension.uppercased()) }.map{ ($0 as NSString).lastPathComponent }
@@ -36,5 +36,5 @@ let classifier = try MLTextClassifier(trainingData: ["movie": movieNames, "tv": 
 let evaluation = classifier.evaluation(on: ["movie": ["复仇者联盟", "大话西游2"], "tv": ["延禧攻略.2018.720p.X264.第34集", "延禧攻略.2018.720p.X264.第36集"]])
 print("Evaluate Model \n\(evaluation.description)")
 print("Save Model")
-try classifier.write(toFile: "/Users/saucymqin/Desktop/Test/VideoClassifier.mlmodel")
+try classifier.write(toFile: "/Users/qin/Desktop/Test/VideoClassifier.mlmodel")
 ```
