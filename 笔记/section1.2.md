@@ -1,5 +1,23 @@
 # 2. Wrap控件
 ```Dart
+Wrap(
+        spacing: space,
+        runSpacing: space,
+        alignment: WrapAlignment.center,
+        runAlignment: WrapAlignment.center,
+        verticalDirection: VerticalDirection.up,
+        textDirection: TextDirection.rtl,
+        children: avatars.reversed
+            .map((e) => DUIAvatar(
+                  url: e,
+                  radius: 2,
+                  width: w,
+                  height: h,
+                  loadingWidget: loadingWidget,
+                  failedWidget: failedWidget,
+                ))
+            .toList(),
+      )
 Wrap({
     Key key,
     this.direction = Axis.horizontal,
@@ -16,4 +34,4 @@ Wrap({
 ```
 
 # 3. 疑问
-1. Flutter里面如何push一个类似alert的页面，让透明的地方的点击响应传给上一个页面
+1. `Flutter`里面如何`push`一个类似`alert`的页面，让透明的地方的点击响应传给上一个页面
