@@ -24,6 +24,39 @@ gitbook build
 scp -r _book  root@ip:/web/book
 ```
 
+# 部署
+下面的`远程服务器`腾讯云`Debian`系统。
+
+[安装`docker`](https://www.runoob.com/docker/ubuntu-docker-install.html)，然后部署`nginx`
+
+在`远程服务器`上先随便启动一个容器。
+```bash
+docker run -d -p 80:80  --name mynginx nginx
+```
+然后创建一个本地文件夹把默认配置`copy`一份，然后关闭这个容器并删除。
+```bash
+mkdir /web
+cd /web
+docker cp mynginx:/etc/nginx/conf.d .
+docker stop mynginx
+docker rm mynginx
+```
+可以使用`vim`编辑这个配置文件（这一步可以不做）。
+```bash
+vim conf.d/default.conf
+```
+可以看到有一个`/usr/share/nginx/html`，表示资源地址，不过这个资源地址是容器的修改了也没用，我们启动的时候把本地目录映射到这个地址就可以了，所以这里不需要修改，可以深入研究这个配置文件，可以做到很多事。
+
+然后`本地电脑`把要部署的资源上传到`远程服务器`。
+```bash
+scp -r _book root@ip:/web/book
+```
+最后在`远程服务器`上启动容器并加上映射。这个`80:80`前面这个80是服务器的端口，后面这个80是容器的端口。映射`-v`可以加很多个，一般把`conf`里面需要用到的加上就可以了。
+```bash
+docker run -d -p 80:80 --name web -v /web/book:/usr/share/nginx/html -v /web/conf.d:/etc/nginx/conf.d nginx
+```
+这个时候你就可以直接在浏览器输入你的ip地址浏览这个网页了。
+
 # 部署遇到的问题
 `Linux`的远程传输文件`scp`出现`Permission denied (publickey).lost connection`问题解决方法。
 
