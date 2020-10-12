@@ -1,6 +1,11 @@
 # Summary
 
 * [引言](README.md)
+* [笔记](笔记/README.md)
+    * [GitBook安装使用与部署](笔记/GitBook安装使用与部署.md)
+    * [QuickLook](笔记/QuickLook.md)
+    * [Flutter字体问题](笔记/Flutter字体问题.md)
+    * [scp命令问题](笔记/scp命令问题.md)
 * [Flutter](flutter/README.md)
     * [组件解析之Container](flutter/组件解析之Container.md)
     * [Wrap控件介绍](flutter/Wrap控件介绍.md)
@@ -14,11 +19,6 @@
     * [一行代码的约束解决方案](iOS/一行代码的约束解决方案.md)
     * [制作动态库](iOS/制作动态库.md)
     * [iOS转屏的坑和一些使用技巧](iOS/iOS转屏的坑和一些使用技巧.md)
-* [笔记](笔记/README.md)
-    * [GitBook安装使用与部署](笔记/GitBook安装使用与部署.md)
-    * [QuickLook](笔记/QuickLook.md)
-    * [Flutter字体问题](笔记/Flutter字体问题.md)
-    * [scp命令问题](笔记/scp命令问题.md)
 * [其他](其他/README.md)
     * [相似图片检测](其他/相似图片检测.md)
     * [树形红点系统](其他/树形红点系统.md)

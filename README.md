@@ -1,3 +1,3 @@
-把工作和学习中一些技巧和方法记录下来。
+把工作和学习中一些技巧和方法整理记录下来。
 
-This is a book powered by [GitBook](https://github.com/saucym/gitbook).
+[`GitHub`](https://github.com/saucym)

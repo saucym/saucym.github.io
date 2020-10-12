@@ -61,7 +61,7 @@ docker run -d -p 80:80 --name web -v /web/book:/usr/share/nginx/html -v /web/con
 cd ~/.ssh
 ssh-keygen -t rsa
 ```
-将当前主机上的`id_rsa.pub`文件拷贝到远程`Linux`主机的`root`用户目录下的`.ssh`目录下，并且改名为`authorized_keys` 。若已经有该文件可以把内容追加在后面。
+将当前主机上的`id_rsa.pub`文件拷贝到远程`Linux`主机的`root`用户目录下的`.ssh`目录下，并且改名为`authorized_keys` 。若已经有该文件可以把内容追加在后面，要配对多个机器就在后面追加就行了。
 
 这样本地密匙跟远程主机密匙就能对上了，后续`scp`命令就不需要带鉴权信息了。
 

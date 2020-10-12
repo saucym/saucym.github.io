@@ -11,14 +11,26 @@
         "tbfed-pagefooter",
         "popup",
         "-sharing",
-        "sharing-plus"
+        "sharing-plus",
+        "github",
+        "gtalk"
     ],
     "pluginsConfig": {
+        "gtalk": {
+          "clientID": "6034224e8c0cb7a36f78",
+          "clientSecret": "8fdce528ac92141adc0d1fae998d2c080a5ea510",
+          "repo": "saucym.github.io",
+          "owner": "saucym",
+          "admin": ["saucym"]
+        },
+        "github": {
+            "url":"https://github.com/saucym"
+        },
         "hide-element": {
             "elements": [".gitbook-link"]
         },
         "tbfed-pagefooter": {
-            "copyright": "Copyright &copy qhc_m@qq.com 2020",
+            "copyright": "Copyright &copy 413132340@qq.com 2020",
             "modify_label": "该文章修订时间：",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
         },
