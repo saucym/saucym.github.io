@@ -3,6 +3,7 @@
 * [引言](README.md)
 * [笔记](笔记/README.md)
     * [GitBook安装使用与部署](笔记/GitBook安装使用与部署.md)
+    * [GitBook评论插件](笔记/GitBook评论插件.md)
     * [QuickLook](笔记/QuickLook.md)
     * [Flutter字体问题](笔记/Flutter字体问题.md)
     * [scp命令问题](笔记/scp命令问题.md)

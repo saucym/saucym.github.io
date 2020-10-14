@@ -20,7 +20,21 @@ gitbook serve
 gitbook build
 ```
 
-# 部署
+# 部署到[`GitHub`](https://github.com)
+首先在你的`github`建立一个`Public`的`xxx.github.io`仓库（这个域名的`xxx`你自己记得修改），这个名字就是你网页的域名。
+把这个仓库`clone`到本地。
+```bash
+git clone https://github.com/xxx/xxx.github.io.git
+```
+然后把上面`使用方法`生成的`_book`文件夹下面的所有文件拷贝到本地的`xxx.github.io`目录下，然后`push`到云端。
+```bash
+git add .
+git commit -m "xxx"
+git push
+```
+完成后就可以打开`xxx.github.io`了。
+
+# 部署到自己的云服务器
 下面的`远程服务器`都是指腾讯云`Debian`系统，当然其他云也是没问题的。
 
 [安装`docker`](https://www.runoob.com/docker/ubuntu-docker-install.html)，然后部署`nginx`
