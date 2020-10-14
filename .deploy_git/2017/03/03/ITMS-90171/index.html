@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近Swift和Objective-c混编使用脚本打包提交App Store遇到报错 ITMS-90171:”Invalid Bundle Structure - The binary file “xxx.app/libswiftRemoteMirror.dylib” is not permitted” 
+不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码123456789101112131">
+<meta property="og:type" content="article">
+<meta property="og:title" content="填坑路之:ITMS-90171">
+<meta property="og:url" content="http://yoursite.com/2017/03/03/ITMS-90171/index.html">
+<meta property="og:site_name" content="书生的博客">
+<meta property="og:description" content="最近Swift和Objective-c混编使用脚本打包提交App Store遇到报错 ITMS-90171:”Invalid Bundle Structure - The binary file “xxx.app/libswiftRemoteMirror.dylib” is not permitted” 
+不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码123456789101112131">
+<meta property="og:updated_time" content="2017-03-03T09:12:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="填坑路之:ITMS-90171">
+<meta name="twitter:description" content="最近Swift和Objective-c混编使用脚本打包提交App Store遇到报错 ITMS-90171:”Invalid Bundle Structure - The binary file “xxx.app/libswiftRemoteMirror.dylib” is not permitted” 
+不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码123456789101112131">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/03/ITMS-90171/"/>
+
+
+
+
+
+  <title> 填坑路之:ITMS-90171 | 书生的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">书生的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">待完善</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/ITMS-90171/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Saucym Qin">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/header.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="书生的博客">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="书生的博客" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                填坑路之:ITMS-90171
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T17:12:33+08:00">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近Swift和Objective-c混编使用脚本打包提交App Store遇到报错 ITMS-90171:”Invalid Bundle Structure - The binary file “xxx.app/libswiftRemoteMirror.dylib” is not permitted” </p>
+<h1 id="不啰嗦-这里把解决问题放第一位，所以这里先贴打包脚本源码"><a href="#不啰嗦-这里把解决问题放第一位，所以这里先贴打包脚本源码" class="headerlink" title="不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码"></a>不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">TARGET=<span class="string">"xxx"</span> <span class="comment">#这里一般填你的工程名字</span></div><div class="line">PROJECT_NAME=<span class="variable">$TARGET</span></div><div class="line">PROJECT_FILE=<span class="variable">$PROJECT_NAME</span>.xcodeproj</div><div class="line">CONFIGURATION=Release</div><div class="line">BUILD_FOLDER=build/<span class="variable">$CONFIGURATION</span>-iphoneos</div><div class="line">RESULT_FOLDER=result</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="string">"clear folder"</span></div><div class="line">rm -rf <span class="variable">$BUILD_FOLDER</span></div><div class="line">mkdir -p <span class="variable">$BUILD_FOLDER</span></div><div class="line">rm -rf <span class="variable">$RESULT_FOLDER</span></div><div class="line">mkdir -p <span class="variable">$RESULT_FOLDER</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> clean...</div><div class="line">xcodebuild  -project  <span class="variable">$PROJECT_FILE</span>  -scheme  <span class="variable">$PROJECT_NAME</span>  -configuration  <span class="variable">$CONFIGURATION</span> clean</div><div class="line"></div><div class="line"><span class="built_in">echo</span> begin xcodebuild...</div><div class="line">xcodebuild -project <span class="variable">$PROJECT_FILE</span> -scheme <span class="variable">$PROJECT_NAME</span> -configuration <span class="variable">$CONFIGURATION</span>  -archivePath <span class="variable">$BUILD_FOLDER</span>/<span class="variable">$PROJECT_NAME</span>.xcarchive  archive</div><div class="line"></div><div class="line"><span class="built_in">echo</span> begin xcrun...</div><div class="line">xcrun xcodebuild -exportArchive -exportOptionsPlist build_config/archive_option.plist -archivePath  <span class="variable">$BUILD_FOLDER</span>/<span class="variable">$PROJECT_NAME</span>.xcarchive -exportPath <span class="variable">$RESULT_FOLDER</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="variable">$RESULT_FOLDER</span>/<span class="variable">$PROJECT_NAME</span>.ipa</div></pre></td></tr></table></figure>
+<p>这里附上archive_option.plist文件内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</div><div class="line">&lt;!DOCTYPE plist PUBLIC <span class="string">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="string">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span>&gt;</div><div class="line">&lt;plist version=<span class="string">"1.0"</span>&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;method&lt;/key&gt;</div><div class="line">    &lt;string&gt;app-store&lt;/string&gt;</div><div class="line">    &lt;key&gt;teamID&lt;/key&gt;</div><div class="line">    &lt;string&gt;xxx&lt;/string&gt;</div><div class="line">    &lt;key&gt;uploadSymbols&lt;/key&gt;</div><div class="line">    &lt;<span class="literal">false</span>/&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;/plist&gt;</div></pre></td></tr></table></figure></p>
+<p><a href="http://www.jianshu.com/p/bccbb37f21f9" target="_blank" rel="external">xcrun命令</a>参考</p>
+<h1 id="有闲情逸致的可以看看下面的解决过程"><a href="#有闲情逸致的可以看看下面的解决过程" class="headerlink" title="有闲情逸致的可以看看下面的解决过程"></a>有闲情逸致的可以看看下面的解决过程</h1><p>首先google之查到一些信息，libswiftRemoteMirror.dylib这货是Xcode挖的坑，Swift跟oc混编用Xcode8的.app打包就会自动给你放个libswiftRemoteMirror.dylib这货在包里面，然后你提交的时候它有告诉你不允许包里面有这货，这时候我就想骂人了，但是想了下英语除了会fuck就不会其它高雅一点的了，于是放弃骂人，还是继续埋头想办法吧…于是习惯性的在网上找到<a href="http://www.jianshu.com/p/03e4a3597af5" target="_blank" rel="external">一篇文章</a>,这文章里面主要说了三个方法，先列出来<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.通过Xcode的Archive方式打包。Archive打的包，就没有包含这个libswiftRemoteMirror.dylib文件。</div><div class="line">2.手动删除.app中的libswiftRemoteMirror.dylib文件，然后进行.app打包。</div><div class="line">3.在Xcode7中进行.app打包。在Xcode7和Xcode8中分别进行.app打包，发现Xcode7打包后没有libswiftRemoteMirror.dylib文件</div></pre></td></tr></table></figure></p>
+<p>由于本人比较懒，能用脚本解决的事绝对不用鼠标点第二下，所以所有方法都是用脚本实现的<br>首先，方法3直接排除，尼玛苹果Xcode向下兼容做得最扯蛋的，Xcode8开发的项目还拿Xcode7去运行简直嫌自己被坑得不够惨吧！<br>然后看方法2感觉很简单的样子，于是在压缩成ipa的脚本前面加了这两行代码（删文件+重签）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rm -rf <span class="variable">$BUILD_DIR</span>/<span class="variable">$PROJECT</span>.app/libswiftRemoteMirror.dylib</div><div class="line">codesign <span class="_">-f</span> <span class="_">-s</span> <span class="string">'xxx xxx xx, Ltd (xxxx)'</span> <span class="variable">$BUILD_DIR</span>/<span class="variable">$PROJECT</span>.app</div></pre></td></tr></table></figure></p>
+<p>搞定提交，以为完事可以回家打豆豆了，但是苹果君还想让我陪它玩玩，于是又跳出来个错误 ITMS-90166:’Missing Code Signing Entitlements.No entitlements found in boundle ‘com.xxx.xxx’for executable ‘xxx/xxx.app/xxx’.’，好吧，你是大爷，你说错咱改还不行吗。于是继续找google君找答案，找了<a href="http://stackoverflow.com/questions/29684966/missing-code-signing-entitlements-for-resource-bundle-xcode-6-3" target="_blank" rel="external">几个类似的</a>但是都跟我遇到的情况都不一样，而且项目急需上架，于是我准备先用前面提到的方法1：Archive打包，但是打包完成后提交还是遇到报这个错,到这里我有点懵逼了，这时候一个叫柠檬的同事说遇到过相同的情况，咨询之，对方说他们改了脚本用Archive打包就搞定了，一语惊醒梦中人(谢谢柠檬同学)，对啊哥怎么没想到可以改用脚本Archive打包呢这样又可以规避一些Xcode的bug，于是把脚本中的.app打包方式改成Archive打包后就提交成功了。详细脚本请看上面</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/03/iOS转屏的坑和一些使用技巧/" rel="next" title="iOS实现横竖屏遇到的一些坑和一些使用技巧">
+                <i class="fa fa-chevron-left"></i> iOS实现横竖屏遇到的一些坑和一些使用技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/03/DragDrop/" rel="prev" title="为你的APP加上DragDrop">
+                为你的APP加上DragDrop <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/header.png"
+               alt="Saucym Qin" />
+          <p class="site-author-name" itemprop="name">Saucym Qin</p>
+           
+              <p class="site-description motion-element" itemprop="description">我本微末凡尘，可也心向天空…</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#不啰嗦-这里把解决问题放第一位，所以这里先贴打包脚本源码"><span class="nav-number">1.</span> <span class="nav-text">不啰嗦 这里把解决问题放第一位，所以这里先贴打包脚本源码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#有闲情逸致的可以看看下面的解决过程"><span class="nav-number">2.</span> <span class="nav-text">有闲情逸致的可以看看下面的解决过程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Saucym Qin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
