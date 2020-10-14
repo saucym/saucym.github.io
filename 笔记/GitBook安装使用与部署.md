@@ -21,7 +21,7 @@ gitbook build
 ```
 
 # 部署到[`GitHub`](https://github.com)
-首先在你的`github`建立一个`Public`的`xxx.github.io`仓库（这个域名的`xxx`你自己记得修改），这个名字就是你网页的域名。
+首先在你的`github`建立一个`Public`的`xxx.github.io`仓库（这个域名的`xxx`你自己记得修改，后面的格式固定），这个名字就是你网页的域名。
 把这个仓库`clone`到本地。
 ```bash
 git clone https://github.com/xxx/xxx.github.io.git
@@ -33,6 +33,15 @@ git commit -m "xxx"
 git push
 ```
 完成后就可以打开`xxx.github.io`了。
+
+# 基于`GitHub Issues`的`GitBook`评论插件[`gitalk`](https://www.npmjs.com/package/gitbook-plugin-gtalk)
+其他简单插件可以参考[推荐12个实用的`gitbook`插件](https://juejin.im/post/6844903865146441741)这篇文章。
+这里重点介绍一下评论插件[`gitalk`](https://www.npmjs.com/package/gitbook-plugin-gtalk)。还有一个评论插件叫`disqus`不过不推荐使用。
+
+
+[`gitalk`](https://www.npmjs.com/package/gitbook-plugin-gtalk)的使用不用去网上搜，网上教程说的每个文件都要加代码的问题官方已经支持了，按官方介绍用就可以了。
+
+介绍中的参数`clientID`和`clientSecret`可以通过点击[`在线申请`](https://github.com/settings/applications/new)在`GitHub`申请一个授权应用得到。
 
 # 部署到自己的云服务器
 下面的`远程服务器`都是指腾讯云`Debian`系统，当然其他云也是没问题的。
